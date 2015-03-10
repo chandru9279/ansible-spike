@@ -1,0 +1,8 @@
+[localhostgroup]
+lm ansible_ssh_port=22 ansible_ssh_host=localhost
+
+[wingroup]
+10.16.2.9
+
+[solaris]
+192.168.59.104
