@@ -1,0 +1,5 @@
+- hosts: wingroup
+  gather_facts: False
+  tasks:
+    - script: "choco_install.ps1 -name {{package_name}}"
+
