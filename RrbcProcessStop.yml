@@ -8,8 +8,14 @@
     - name: Run init q command
       command: /usr/sbin/init q
     # awk requires single quotes.
-    - name: kill process called sleep
-      raw: "ps -A | grep sleep | awk '{print $1}' | xargs kill -9"
+    - name: get processes called sleep
+      raw: "ps -A | grep sleep | awk '{print $1}'"
+      register: procs
+    - name: show procs
+      debug: msg="{{ procs.stdout_lines }}"
+    - name: kill procs
+      command: /usr/bin/kill -9 {{ item }}
+      with_items: procs.stdout_lines
 
 
 
