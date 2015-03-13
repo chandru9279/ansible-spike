@@ -1,0 +1,14 @@
+- hosts: solaris
+  remote_user: zasz
+  sudo: yes
+  gather_facts: False
+  tasks:
+    - name: comment process line in inittab
+      lineinfile: dest=/etc/inittab regexp="^h4:(.*)$" line="# h4:\1" backrefs=yes
+    - name: Run init q command
+      command: /usr/sbin/init q
+    - name: kill process called sleep
+      raw: "ps -A | grep sleep | awk '{print $1}' | xargs kill -9"
+
+
+
