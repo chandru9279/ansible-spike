@@ -7,6 +7,7 @@
       lineinfile: dest=/etc/inittab regexp="^h4:(.*)$" line="# h4:\1" backrefs=yes
     - name: Run init q command
       command: /usr/sbin/init q
+    # awk requires single quotes.
     - name: kill process called sleep
       raw: "ps -A | grep sleep | awk '{print $1}' | xargs kill -9"
 
