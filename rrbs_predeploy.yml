@@ -1,0 +1,31 @@
+---
+# Pre deploy steps for RRBS
+
+- hosts: solaris
+  remote_user: zasz
+  sudo: yes
+  gather_facts: False
+  tasks: 
+    - name: create if not exists extract path
+      file: "state=directory mode='u=rw,g=rw,o=rw' path=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }}"
+
+    - name: create if not exists backup path
+      file: "state=directory mode='u=rw,g=rw,o=rw' path=/app/rrbs_predeploy/backup"
+
+    - name: download artifact to temp folder
+      get_url: url=ftp://ftp.kernel.org/pub/dist/superrescue/v2/buildtree-2.1.2.tar.gz dest=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz force=yes
+
+    - name: unzip to temp folder
+      unarchive: src=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz dest=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }} copy=no
+
+    - name: deal with templates
+      debug: msg='deal with config templates'
+
+    - name: take backup of existing files
+      # This overwrites if you have another backup of the same name. Unix does not have z flag in tar for compression
+      command: "/usr/bin/tar cvf /app/rrbs_predeploy/backup/rrbs_{{ build_number | default('default') }}.tar -C {{ rrbs_install_path  }} ."
+      args:
+        chdir: "{{ rrbs_install_path  }}"
+      tags: debug
+
+

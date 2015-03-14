@@ -1,0 +1,9 @@
+---
+# RRBS settings for solaris group. For use in a devbox testing context
+
+
+# Place where the app is installed. Deployment happens here!
+rrbs_install_path: /app/installed/
+
+# Assuming one artifact. Many artifacts could mean many extract paths depending on where they need to be.
+rrbs_artifact_extract_path: rrbs_artifact_1
