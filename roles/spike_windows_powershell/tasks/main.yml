@@ -1,0 +1,8 @@
+---
+# tasks file for spike_windows_powershell
+
+- name: Name of the package being installed
+  debug: msg="{{ package_name }}"
+
+- name: Installing package with powershell script
+  script: "choco_install.ps1 -name {{ package_name }}"

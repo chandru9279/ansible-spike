@@ -1,3 +1,4 @@
+---
 - hosts: solaris
   remote_user: zasz
   sudo: yes

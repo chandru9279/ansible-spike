@@ -1,9 +1,0 @@
-- hosts: solaris
-  remote_user: zasz
-  sudo: yes
-  roles:
-    - webserver
-
-# rollback change link to point to last but 1 release
-
-# enhance release to do splicing/templating
