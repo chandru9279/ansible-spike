@@ -11,10 +11,9 @@ The folder `inv` has a collection of inventories. One file per environment.
 
 Run spikes altogether
 ```
-ansible-playbook -i inv/devbox spikes.yml 
+ansible-playbook -i inv/local spikes.yml
 ```
 or by tag. For example
 ```
-ansible-playbook -i inv/devbox spikes.yml --tags=release
+ansible-playbook -i inv/local spikes.yml --tags=release
 ```
-
