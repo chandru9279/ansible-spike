@@ -1,31 +1,43 @@
-- name: create if not exists folder for releases
-  file: path=/app/releases state=directory mode="u=rw,g=rw,o=rw"
+- name: Create if not exists a folder for releases
+  file: >
+    path=/app/releases
+    state=directory
+    mode="u=rw,g=rw,o=rw"
   tags:
     - init
 
+
 - name: deploy files to release folder
-  copy: "src=/artifacts/web-{{ build_number|default(\"1.0.0.20\") }}.config dest=/app/releases/{{ build_number|default(\"1.0.0.20\") }} mode=\"u=rw,g=rw,o=rw\""
+  copy: >
+    src=/artifacts/web-{{ build_number|default(\"1.0.0.20\") }}.config
+    dest=/app/releases/{{ build_number|default(\"1.0.0.20\") }}
+    mode=\"u=rw,g=rw,o=rw\""
+
 
 - name: check if current symlink exists
   shell: "[ -f /app/releases/current ] && echo 'Exists' || echo 'Not exists'"
   register: check_output
 
-- debug: msg="{{check_output|to_yaml}}"
+
+- debug: msg="{{ check_output|to_yaml }}"
+
 
 - debug: var=check_output
 
-- name: create current symlink if not exists
+
+- name: Create current symlink if it does not exist
   shell: "ln -s /app/releases/{{ build_number|default(\"1.0.0.20\") }} /app/releases/current"
   when: check_output.stdout == 'Not exists' # current link does exist
 
-- name: backup current release with copy
+
+- name: Backup current release with copy
   shell: "mv /app/releases/current /app/releases/current.old"
 
-- name: change link to point to latest release
-  file: "src=/app/releases/{{ build_number|default(\"1.0.0.20\") }} dest=/app/releases/current state=link"
 
-
-
+- name: Change link to point to latest release
+  file: >
+    src=/app/releases/{{ build_number|default(\"1.0.0.20\") }}
+    dest=/app/releases/current state=link"
 
 
 

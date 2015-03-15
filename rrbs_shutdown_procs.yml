@@ -5,16 +5,28 @@
   gather_facts: False
   tasks:
     - name: comment process line in inittab
-      lineinfile: dest=/etc/inittab regexp="^h4:(.*)$" line="# h4:\1" backrefs=yes
+      lineinfile: >
+        dest=/etc/inittab
+	regexp="^h4:(.*)$"
+	line="# h4:\1"
+	backrefs=yes
+
+
     - name: Run init q command
       command: /usr/sbin/init q
+
+
     # awk requires single quotes.
-    - name: get processes called sleep
+    - name: Get processes called sleep
       raw: "ps -A | grep sleep | awk '{print $1}'"
       register: procs
-    - name: show procs
+
+
+    - name: Show procs going to be killed
       debug: msg="{{ procs.stdout_lines }}"
-    - name: kill procs
+
+
+    - name: Kill procs
       command: /usr/bin/kill -9 {{ item }}
       with_items: procs.stdout_lines
 

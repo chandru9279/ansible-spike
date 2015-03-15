@@ -4,12 +4,12 @@
   tags: adu05
 
 
-- name: Create user for ansible to use 
+- name: Create user for ansible to use
   user: >
-          name={{ item }} 
-          state=present
-          group=deployers
-          shell=/bin/bash
+    name={{ item }}
+    state=present
+    group=deployers
+    shell=/bin/bash
   with_items:
     - deploy
   sudo: yes
@@ -18,24 +18,24 @@
 
 - name: Ensure sudoers.d is enabled
   lineinfile: >
-          dest=/etc/sudoers 
-          state=present 
-          backup=yes 
-          regexp='^#includedir /etc/sudoers.d' 
-          line='#includedir /etc/sudoers.d'
-          validate='/usr/sbin/visudo -cf %s'
+    dest=/etc/sudoers
+    state=present
+    backup=yes
+    regexp='^#includedir /etc/sudoers.d'
+    line='#includedir /etc/sudoers.d'
+    validate='/usr/sbin/visudo -cf %s'
   sudo: yes
   tags: adu20
 
 
 - name: Set up password-less sudo for deployers group and validate
   copy: >
-          content='%{{ item }} ALL=(ALL) NOPASSWD:ALL'
-          dest=/etc/sudoers.d/{{ item }} 
-          owner=root 
-          group=root 
-          mode=0440
-          validate='/usr/sbin/visudo -csf %s'
+    content='%{{ item }} ALL=(ALL) NOPASSWD:ALL'
+    dest=/etc/sudoers.d/{{ item }}
+    owner=root
+    group=root
+    mode=0440
+    validate='/usr/sbin/visudo -csf %s'
   sudo: yes
   with_items:
     - deployers
@@ -44,16 +44,16 @@
 
 - name: Update sudoers file for SSH pipelining and validate
   lineinfile: >
-          dest=/etc/sudoers.d/{{ item }}
-          owner=root 
-          group=root 
-          mode=0440
-          insertafter=EOF
-          line='Defaults:%{{ item }}    !requiretty'
-          regexp='Defaults:%{{ item }}    !requiretty'
-          state=present
-          create=yes
-          validate='/usr/sbin/visudo -csf %s'
+    dest=/etc/sudoers.d/{{ item }}
+    owner=root
+    group=root
+    mode=0440
+    insertafter=EOF
+    line='Defaults:%{{ item }}    !requiretty'
+    regexp='Defaults:%{{ item }}    !requiretty'
+    state=present
+    create=yes
+    validate='/usr/sbin/visudo -csf %s'
   sudo: yes
   with_items:
     - deployers
@@ -63,17 +63,17 @@
 - name: Debug | Validate the control machine key visually
   debug: var=public_key_content
   tags: adu50
- 
+
 
 - name: Authorize control machine key
   authorized_key: >
-          user={{ item }}
-          key="{{ public_key_content }}"
-          manage_dir=no
+    user={{ item }}
+    key="{{ public_key_content }}"
+    manage_dir=no
   sudo: yes
   with_items:
     - deploy
   tags: adu50
- 
+
 
 
