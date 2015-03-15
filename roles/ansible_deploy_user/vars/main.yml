@@ -1,0 +1,5 @@
+---
+# variables for ansible_deploy_user
+
+public_key_content: "{{ ''+lookup('file', 'ansible_rsa.pub') }}"
+

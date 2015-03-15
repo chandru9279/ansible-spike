@@ -7,4 +7,4 @@ lm ansible_ssh_port=22 ansible_ssh_host=localhost
 192.168.59.3
 
 [solaris]
-192.168.59.104
+192.168.59.103

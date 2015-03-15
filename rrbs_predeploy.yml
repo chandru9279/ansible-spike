@@ -5,18 +5,29 @@
   remote_user: zasz
   sudo: yes
   gather_facts: False
-  tasks: 
+  tasks:
     - name: create if not exists extract path
-      file: "state=directory mode='u=rw,g=rw,o=rw' path=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }}"
+      file: >
+              state=directory
+              mode='u=rw,g=rw,o=rw'
+              path=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }}
 
     - name: create if not exists backup path
-      file: "state=directory mode='u=rw,g=rw,o=rw' path=/app/rrbs_predeploy/backup"
+      file: >
+              state=directory
+              mode='u=rw,g=rw,o=rw'
+              path=/app/rrbs_predeploy/backup
 
     - name: download artifact to temp folder
-      get_url: url=ftp://ftp.kernel.org/pub/dist/superrescue/v2/buildtree-2.1.2.tar.gz dest=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz force=yes
+      get_url: >
+              url=ftp://ftp.kernel.org/pub/dist/superrescue/v2/buildtree-2.1.2.tar.gz
+              dest=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz force=yes
 
     - name: unzip to temp folder
-      unarchive: src=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz dest=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }} copy=no
+      unarchive: >
+              src=/app/rrbs_predeploy/rrbs_artifact_1.tar.gz
+              dest=/app/rrbs_predeploy/{{ rrbs_artifact_extract_path }}
+              copy=no
 
     - name: deal with templates
       debug: msg='deal with config templates'

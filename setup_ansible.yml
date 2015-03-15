@@ -1,0 +1,10 @@
+---
+# Setting up user and group for ansible on target machines
+
+- hosts: solaris
+  sudo: yes
+  gather_facts: False
+  roles: 
+    - ansible_deploy_user
+
+
