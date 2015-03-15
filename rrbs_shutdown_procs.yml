@@ -16,8 +16,8 @@
       command: /usr/sbin/init q
 
 
-    # awk requires single quotes.
     - name: Get processes called sleep
+      # awk requires single quotes.
       raw: "ps -A | grep sleep | awk '{print $1}'"
       register: procs
 
