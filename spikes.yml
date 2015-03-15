@@ -1,19 +1,20 @@
 ---
 - hosts: solaris
-  remote_user: zasz
+  remote_user: deploy
   sudo: yes
   roles:
    - { role: spike_symlink_release, tags: release }
+  tags: spikes10
 
 - hosts: wingroup
   gather_facts: False
   roles:
     - spike_windows_powershell
-  tags: choco
+  tags: spikes20
 
 - hosts: localhostgroup
   gather_facts: False
   tasks:
     - debug: var=answer_to_life_universe_and_everything
-  tags: vartest
+  tags: spikes30
 
