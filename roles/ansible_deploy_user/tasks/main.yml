@@ -9,7 +9,7 @@
     name={{ item }}
     state=present
     group=deployers
-    shell=/bin/bash
+    shell=/usr/bin/bash
   with_items:
     - deploy
   sudo: yes
